@@ -318,6 +318,23 @@ function Index() {
                 />
               </div>
 
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-sm font-medium">
+                  Email address
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  maxLength={255}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                />
+              </div>
+
               <div className="flex items-start gap-3">
                 <input
                   id="consent"
