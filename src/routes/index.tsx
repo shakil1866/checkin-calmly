@@ -120,8 +120,8 @@ function Index() {
           phone: trimmedPhone,
           answers: QUESTIONS.map((question, i) => ({
             question,
-            response: OPTIONS[answers[i] ?? 0].label,
-            value: answers[i],
+            response: OPTIONS[answers[i] ?? 0]?.label ?? "",
+            value: answers[i] ?? 0,
           })),
           submittedAt: new Date().toISOString(),
         }),
