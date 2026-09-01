@@ -98,12 +98,17 @@ function Index() {
     event?.preventDefault();
     const trimmedName = name.trim();
     const trimmedPhone = phone.trim();
+    const trimmedEmail = email.trim();
     if (trimmedName.length < 2 || trimmedName.length > 100) {
       setFormError("Please enter your full name (2–100 characters).");
       return;
     }
     if (!/^[+()\d\s-]{7,20}$/.test(trimmedPhone)) {
       setFormError("Please enter a valid phone number so we can follow up.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail) || trimmedEmail.length > 255) {
+      setFormError("Please enter a valid email address.");
       return;
     }
     if (!consent) {
@@ -119,6 +124,7 @@ function Index() {
         body: JSON.stringify({
           name: trimmedName,
           phone: trimmedPhone,
+          email: trimmedEmail,
           answers: QUESTIONS.map((question, i) => ({
             question,
             response: OPTIONS[answers[i] ?? 0]?.label ?? "",
