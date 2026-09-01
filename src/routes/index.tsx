@@ -52,6 +52,7 @@ function Index() {
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
@@ -97,12 +98,17 @@ function Index() {
     event?.preventDefault();
     const trimmedName = name.trim();
     const trimmedPhone = phone.trim();
+    const trimmedEmail = email.trim();
     if (trimmedName.length < 2 || trimmedName.length > 100) {
       setFormError("Please enter your full name (2–100 characters).");
       return;
     }
     if (!/^[+()\d\s-]{7,20}$/.test(trimmedPhone)) {
       setFormError("Please enter a valid phone number so we can follow up.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail) || trimmedEmail.length > 255) {
+      setFormError("Please enter a valid email address.");
       return;
     }
     if (!consent) {
@@ -118,6 +124,7 @@ function Index() {
         body: JSON.stringify({
           name: trimmedName,
           phone: trimmedPhone,
+          email: trimmedEmail,
           answers: QUESTIONS.map((question, i) => ({
             question,
             response: OPTIONS[answers[i] ?? 0]?.label ?? "",
@@ -307,6 +314,23 @@ function Index() {
                   maxLength={20}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-sm font-medium">
+                  Email address
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  maxLength={255}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                 />
               </div>
